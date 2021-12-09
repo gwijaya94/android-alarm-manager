@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         binding.btnSetOnceAlarm.setOnClickListener(this)
         binding?.btnRepeatingTime?.setOnClickListener(this)
         binding?.btnSetRepeatingAlarm?.setOnClickListener(this)
+        binding?.btnCancelRepeatingAlarm?.setOnClickListener(this)
         alarmReceiver = AlarmReceiver()
     }
 
@@ -54,9 +55,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             R.id.btn_set_repeating_alarm -> {
                 val repeatTime = binding?.tvRepeatingTime?.text.toString()
                 val repeatMessage = binding?.edtRepeatingMessage?.text.toString()
-                alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
-                    repeatTime, repeatMessage)
-
+                alarmReceiver.setRepeatingAlarm(
+                    this, AlarmReceiver.TYPE_REPEATING,
+                    repeatTime, repeatMessage
+                )
+            }
+            R.id.btn_cancel_repeating_alarm -> {
+                alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING)
             }
         }
     }
@@ -79,7 +84,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         // Set text dari textview berdasarkan tag
         when (tag) {
             TIME_PICKER_ONCE_TAG -> binding?.tvOnceTime?.text = dateFormat.format(calendar.time)
-            TIME_PICKER_REPEAT_TAG -> binding?.tvRepeatingTime?.text = dateFormat.format(calendar.time)
+            TIME_PICKER_REPEAT_TAG -> binding?.tvRepeatingTime?.text =
+                dateFormat.format(calendar.time)
             else -> {
             }
         }
